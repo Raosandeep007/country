@@ -1,0 +1,23 @@
+.container{
+    background-color: rgb(243, 243, 243);
+    display: grid;
+    grid-template-columns: 24% 24% 24% 24%;
+    justify-content: center;
+ }
+ 
+ #list{
+     background-color: white;
+     width: 80%;
+     height: 85%;
+     margin: 20px 20px 20px 20px;
+     line-height: 45%;
+ }
+ #textdiv{
+     padding-left: 10px;
+ 
+ }
+ #country_img{
+     width: 100%;
+     height: 60%;
+     
+ }
