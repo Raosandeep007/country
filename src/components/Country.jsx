@@ -7,7 +7,15 @@ export const Country = () => {
   const [search, setsearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [searched] = useState(["name"]);
-
+  const [selected, setselected] = useState("");
+  const selecttag = [
+    "Filter By Region",
+    "Africa",
+    "Americas",
+    "Asia",
+    "Europe",
+    "Oceania",
+  ];
   useEffect(() => {
     getData();
   }, []);
@@ -26,6 +34,8 @@ export const Country = () => {
       });
   };
   const handlesearch = (countries) => {
+    setselected("Filter By Region");
+
     return countries.filter((country) =>
       searched.some(
         (newcountry) =>
@@ -37,35 +47,21 @@ export const Country = () => {
     );
   };
   const handleclick = () => {
+    setIsLoading(true);
     let a = handlesearch(countries);
     setData(a);
+    setIsLoading(false);
   };
   const handleChange = (e) => {
     setIsLoading(true);
-
-    switch (e.target.value) {
-      case "Africa":
-        setData([...countries].filter((country) => country.region == "Africa"));
-        break;
-      case "Americas":
-        setData(
-          [...countries].filter((country) => country.region == "Americas")
-        );
-        break;
-      case "Asia":
-        setData([...countries].filter((country) => country.region == "Asia"));
-        break;
-      case "Europe":
-        setData([...countries].filter((country) => country.region == "Europe"));
-        break;
-      case "Oceania":
-        setData(
-          [...countries].filter((country) => country.region == "Oceania")
-        );
-        break;
-      default:
-        setData(countries);
-        break;
+    setselected(e.target.value);
+    setsearch("");
+    if (e.target.value === "Filter By Region") {
+      setData(countries);
+    } else {
+      setData(
+        [...countries].filter((country) => country.region == e.target.value)
+      );
     }
     setIsLoading(false);
   };
@@ -78,15 +74,15 @@ export const Country = () => {
         onChange={(e) => {
           handleChange(e);
         }}
+        value={selected}
         className="custom-select"
         aria-label="Filter Countries By Region"
       >
-        <option value="All">Filter By Region</option>
-        <option value="Africa">Africa</option>
-        <option value="Americas">Americas</option>
-        <option value="Asia">Asia</option>
-        <option value="Europe">Europe</option>
-        <option value="Oceania">Oceania</option>
+        {selecttag.map((tag) => (
+          <option key={tag} value={tag}>
+            {tag}
+          </option>
+        ))}
       </select>
       <input
         className="search-input"
